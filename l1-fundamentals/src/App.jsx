@@ -1,5 +1,12 @@
+import { Post } from './Post';
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Post title="Hello" description="World" />
+      <Post title="Goodbye" description="World" />
+    </>
+  );
 }
 
 export default App;
