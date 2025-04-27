@@ -26,6 +26,15 @@ export const Post = () => {
         necessitatibus itaque totam non fuga culpa, nisi quibusdam tempore velit
         neque?
       </div>
+
+      <form className={styles.commentForm}>
+        <strong>Deixe seu feedback</strong>
+        <textarea placeholder="Deixe seu comentário" />
+
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
     </article>
   );
 };
