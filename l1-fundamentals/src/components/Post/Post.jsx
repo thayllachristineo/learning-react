@@ -1,28 +1,53 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import { Avatar } from '../Avatar';
 import { Comment } from '../Comment';
 import styles from './Post.module.css';
 
-export const Post = () => {
+export const Post = ({ author, content, time: { publishedAt } }) => {
+  const publishedDateFormatted = format(
+    publishedAt,
+    "'d 'de' LLLL 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://github.com/thayllachristineo.png" hasBorder />
+          <Avatar src={author.avatarUrl} hasBorder />
           <div className={styles.authorInfo}>
-            <strong>Thaylla Silva</strong>
-            <span>Desenvolvedora Front-End</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
-        <time title="11 de Maio às 08:13" dateTime="2022-05-11 08:13:00">
-          Publicado há 1h
+
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-        nihil laboriosam vitae nam officiis exercitationem unde, ullam illum eos
-        necessitatibus itaque totam non fuga culpa, nisi quibusdam tempore velit
-        neque?
+        {content.map((c) => {
+          if (c.element === 'paragraph') {
+            return <p>{c.content}</p>;
+          } else if (c.element === 'link') {
+            return (
+              <p>
+                <a href="">{c.content}</a>
+              </p>
+            );
+          }
+        })}
       </div>
 
       <form className={styles.commentForm}>
